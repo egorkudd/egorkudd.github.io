@@ -5,7 +5,13 @@ header {
   vertical-align: center;
 }
 
-.home-button a {
+@media screen and (max-height: 500px) {
+  header button {
+    height: 45px;
+  }
+}
+
+.home-button {
   position: absolute;
   top: 1%;
   left: 7%;
@@ -15,7 +21,7 @@ header {
   font-weight: bold;
   border: none;
   border-radius: 5px;
-  padding: 2.6vh 2.5vw;
+  padding: 15px 20px 15px 20px;
   font-size: 100%;
   cursor: pointer;
 }
@@ -26,13 +32,14 @@ header {
 
 .user {
   position: absolute;
-  top: -1.5%;
+  top: 1%;
   left: 20%;
   background-color: #eee;
   border-radius:5px;
-  padding: 2.1vh 2.5vw 0 2.5vw;
+  padding: 15px 20px 15px 20px;
   font-weight: bold;
-  height: 6vh;
+  text-decoration: none;
+  color: black;
 }
 
 
@@ -48,11 +55,10 @@ header {
 }
 
 .search-line input {
-  height: 8vh;
   border:none;
   border-radius:5px;
   width: 23vw;
-  padding: 10px 0 10px 10px;
+  padding: 16px 10px 16px 10px;
   background-color: #eee;
 }
 
@@ -107,7 +113,7 @@ button:hover{
     font-weight: bold;
 }
 
-/*==================== Body ===========================*/
+/*==================== main ===========================*/
 
 body {
   background-image: url("images/bg9.jpg");
@@ -329,8 +335,8 @@ body {
 }
 
 .same-books__item {
-  padding: 5px 5px 5px 5px;
-  margin: 5px 5px 5px 5px;
+  padding: 5px;
+  margin: 5px;
   border: solid;
   border-radius:5px;
   font-weight: bold;
