@@ -6,9 +6,9 @@
     <meta name="keywords" content="HTML, CSS, JavaScript">
     <meta name="author" content="Egor Kudryashov">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Book Description</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/script.js"></script>
+    <title>My Library</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js"></script>
 </head>
 <body>
 <header>
@@ -25,8 +25,9 @@
     </article>
 </header>
 <main>
+    <h1 class="welcome-phrase">Добро пожаловать в мою библиотеку</h1>
     <div class="white-bg">
-        <div class="description-card" id="description-card"></div>
+        <h2 class="list-title" id="cards-title">Любимые книги автора</h2>
     </div>
 </main>
 <footer>
@@ -37,7 +38,7 @@
 <script>
     get_genres();
     get_contacts();
-    get_book_description();
+    get_all_cards_html();
     active_menu();
 </script>
 </body>
