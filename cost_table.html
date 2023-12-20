@@ -57,12 +57,11 @@
         const container = document.getElementById('container');
         function fetchDataAndRender() {
             preloader.style.display = 'block';
-            render_table('../data/cards.json')
+            render_table('data/cards.json')
                 .then(() => {
                     get_genres();
                     get_contacts();
                     active_menu();
-                    // get_cost_table()
                 })
                 .catch(() => container.innerHTML += handleError(container))
                 .finally(() => preloader.style.display = 'none');
