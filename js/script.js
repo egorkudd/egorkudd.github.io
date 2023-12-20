@@ -149,9 +149,21 @@ function get_cards_html_by_genre(genre_id) {
     return cardsHtml;
 }
 
-function get_cost_table() {
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+    while (currentIndex > 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] =
+            [array[randomIndex], array[currentIndex]];
+    }
+    return array;
+}
+
+function get_cost_table(input_book_cards) {
     let cardsHtml = get_table_title_row();
-    const book_cards = get_data('../data/cards.json');
+    const book_cards = shuffle(input_book_cards);
+    // const book_cards = shuffle(get_data('../data/cards.json'));
     for (let i = 0; i < book_cards.length; i++) {
         cardsHtml += get_table_row(book_cards[i].name, i);
     }
@@ -224,5 +236,23 @@ function get_data(url) {
     } else {
         throw new Error('Request failed: ' + xhr.statusText);
     }
+}
+
+
+function handleError(error, container) {
+    console.error('Error:', error.message);
+    return '⚠ Something went wrong.';
+}
+
+function render_table(url) {
+    return fetch(url)
+        .then(async response => {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            return get_cost_table(JSON.parse(await response.text()));
+        });
 }
 

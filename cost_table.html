@@ -9,6 +9,7 @@
     <title>My Library</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js"></script>
+    <script src="js/todolist.js" defer></script>
 </head>
 <body>
 <header>
@@ -25,8 +26,24 @@
     </article>
 </header>
 <main>
-    <div class="white-bg">
+    <div class="white-bg" id="container">
+        <div id="items"></div>
+        <template id="itemTemplate">
+            <div class="item">
+                <input type="checkbox" class="item-completed">
+                <input type="text" class="item-description" placeholder="Add note...">
+            </div>
+        </template>
+
+        <button id="add">Add Note</button>
+        <div id="randomPhotoCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+            </div>
+            <ol class="carousel-indicators"></ol>
+        </div>
+
         <h2 class="list-title" id="table-title">Цены на книги</h2>
+        <div id="preloader">Loading...</div>
     </div>
 </main>
 <footer>
@@ -35,10 +52,24 @@
     </aside>
 </footer>
 <script>
-    get_genres();
-    get_contacts();
-    active_menu();
-    get_cost_table();
+    document.addEventListener("DOMContentLoaded", function () {
+        const preloader = document.getElementById('preloader');
+        const container = document.getElementById('container');
+        function fetchDataAndRender() {
+            preloader.style.display = 'block';
+            render_table('../data/cards.json')
+                .then(() => {
+                    get_genres();
+                    get_contacts();
+                    active_menu();
+                    // get_cost_table()
+                })
+                .catch(() => container.innerHTML += handleError(container))
+                .finally(() => preloader.style.display = 'none');
+        }
+
+        fetchDataAndRender();
+    });
 </script>
 </body>
 </html>

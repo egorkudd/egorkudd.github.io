@@ -449,3 +449,32 @@ body {
     text-align: right;
 }
 
+.item-description {
+    padding: 5px;
+    width: 200px;
+    margin: 10px;
+}
+
+.item-completed:checked + .item-description {
+    background: #ddd;
+    text-decoration: line-through;
+}
+
+.item {
+    margin: 5px 10px;
+}
+
+#add {
+    padding: 8px 14px;
+    font-weight: bold;
+    color: #fff;
+    background: #cc6600;
+    cursor: pointer;
+    margin: 5px 10px;
+}
+
+#preloader {
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
