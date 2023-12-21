@@ -246,13 +246,13 @@ function handleError(error, container) {
 
 function render_table(url) {
     return fetch(url)
-        .then(async response => {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+        .then(response => {
+            setTimeout(1000);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
 
-            return get_cost_table(JSON.parse(await response.text()));
-        });
+            return response.json();
+        }).then((response) => get_cost_table(response));
 }
 
