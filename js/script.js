@@ -94,6 +94,8 @@ function get_book_description_html(book) {
             <p class="desc-container__desc-author">${book.author}</p>\
             <p class="desc-container__desc-name">${book.name}</p>\
             <p class="desc-container__desc-text">${book.description}</p>\
+            <p class="desc-container__desc-gpt-title">Chat-GPT :</p>\
+            <div id="preloader">Loading...</div>\
         </section>\
         <div class="same-books">\
               <h6 class="same-books__title">Похожая литература по мнению меня</h6>\
@@ -239,8 +241,7 @@ function get_data(url) {
 }
 
 
-function handleError(error, container) {
-    console.error('Error:', error.message);
+function handleError() {
     return '⚠ Something went wrong.';
 }
 
@@ -257,6 +258,10 @@ function render_table(url) {
 }
 
 function get_gpt_book_review() {
+    const preloader = document.getElementById('preloader');
+    let description = document.getElementById("desc-container");
+    preloader.style.display = 'block';
+
     const url = new URL(window.location);
     const id = url.searchParams.get('id');
     const book = get_data(`../data/book_desc/${id}.json`);
@@ -291,10 +296,13 @@ function get_gpt_book_review() {
         .then(json => json.choices[0].message.content)
         .then((content) => {
             console.log(content);
-            let description = document.getElementById("desc-container");
+            preloader.style.display = 'none'
             description.innerHTML += `
-                <p class="desc-container__desc-gpt-title">Chat-GPT :</p>\
                 <p class="desc-container__desc-text">${content}</p>\
             `;
-        });
+        })
+        .catch(() => {
+            preloader.style.display = 'none';
+            description.innerHTML += handleError();
+        })
 }
