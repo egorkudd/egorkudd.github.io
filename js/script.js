@@ -90,10 +90,12 @@ function get_book_description() {
 function get_book_description_html(book) {
     return `\
         <img src="${book.imageSource}">\
-        <section class="desc-container">\
+        <section class="desc-container" id="desc-container">\
             <p class="desc-container__desc-author">${book.author}</p>\
-              <p class="desc-container__desc-name">${book.name}</p>\
-              <p class="desc-container__desc-text">${book.description}</p>\
+            <p class="desc-container__desc-name">${book.name}</p>\
+            <p class="desc-container__desc-text">${book.description}</p>\
+            <p class="desc-container__desc-gpt-title">Chat-GPT :</p>\
+            <div id="preloader">Loading...</div>\
         </section>\
         <div class="same-books">\
               <h6 class="same-books__title">Похожая литература по мнению меня</h6>\
@@ -239,20 +241,68 @@ function get_data(url) {
 }
 
 
-function handleError(error, container) {
-    console.error('Error:', error.message);
+function handleError() {
     return '⚠ Something went wrong.';
 }
 
 function render_table(url) {
     return fetch(url)
-        .then(async response => {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+        .then(response => {
+            setTimeout(1000);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
 
-            return get_cost_table(JSON.parse(await response.text()));
-        });
+            return response.json();
+        }).then((response) => get_cost_table(response));
 }
 
+function get_gpt_book_review() {
+    const preloader = document.getElementById('preloader');
+    let description = document.getElementById("desc-container");
+    preloader.style.display = 'block';
+
+    const url = new URL(window.location);
+    const id = url.searchParams.get('id');
+    const book = get_data(`../data/book_desc/${id}.json`);
+    const book_name = book.name;
+
+    let token = ""
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer " + token)
+    return fetch("https://api.openai.com/v1/chat/completions",
+        {
+            method: "POST",
+            headers: myHeaders,
+            body: `{
+                        "model": "gpt-4-1106-preview",
+                        "messages": [
+                            {
+                                "role": "system",
+                                "content": "Ты литературный критик"
+                            },
+                            {
+                                "role": "user",
+                                "content": "Напиши хороший короткий отзыв о книге ${book_name}. Отзыв должен быть не более 50 слов."
+                            }
+                        ],
+                       "temperature": 1,
+                       "max_tokens": 256
+                }`
+        }
+    )
+        .then(response => response.json())
+        .then(json => json.choices[0].message.content)
+        .then((content) => {
+            console.log(content);
+            preloader.style.display = 'none'
+            description.innerHTML += `
+                <p class="desc-container__desc-text">${content}</p>\
+            `;
+        })
+        .catch(() => {
+            preloader.style.display = 'none';
+            description.innerHTML += handleError();
+        })
+}

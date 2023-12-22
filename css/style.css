@@ -324,18 +324,21 @@ body {
     font-style: italic;
     color: #444;
     margin: 0 2% 0 0;
-    border: inset;
-    border-width: 6px;
-    border-color: lightgray;
-    /*  border-radius: 10px;*/
+    border: 6px inset lightgray;
     padding: 10px 10px 10px 10px;
 }
 
+.desc-container__desc-gpt-title {
+    font-size: 17px;
+    font-weight: bold;
+    /*font-style: italic;*/
+    margin: 0 0 0 0;
+    padding: 10px 10px 10px 0;
+}
+
 .same-books {
-    border: inset;
-    border-color: lightgray;
-    border-width: 6px;
-    padding: 0px 10px 10px 10px;
+    border: 6px inset lightgray;
+    padding: 0 10px 10px 10px;
     display: flex;
     flex-direction: column;
     margin: 1% 1% 1% 0;

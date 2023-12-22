@@ -37,8 +37,13 @@
 <script>
     get_genres();
     get_contacts();
-    get_book_description();
     active_menu();
+    get_book_description();
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        get_gpt_book_review();
+    });
 </script>
 </body>
 </html>

@@ -63,7 +63,7 @@
                     get_contacts();
                     active_menu();
                 })
-                .catch(() => container.innerHTML += handleError(container))
+                .catch(() => container.innerHTML += handleError())
                 .finally(() => preloader.style.display = 'none');
         }
 
